@@ -27,6 +27,7 @@ import FavoritesPage from '../features/profile/pages/FavoritesPage'
 import RestaurantReviewsPage from '../features/social/pages/RestaurantReviewsPage'
 import PromotionsPage from '../features/social/pages/PromotionsPage'
 import WriteReviewModal from '../features/social/pages/WriteReviewModal'
+import SplashPage from '../features/auth/pages/SplashPage'
 
 interface Props {}
 interface State { hasError: boolean; error: Error | null; errorInfo: ErrorInfo | null }

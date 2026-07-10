@@ -52,7 +52,10 @@ export default function PublicLandingPage({ onNavigate, onSearchClick, onRestaur
                 <UtensilsCrossed size={16} className="text-primary-foreground lg:hidden" />
                 <UtensilsCrossed size={20} className="text-primary-foreground hidden lg:block" />
               </div>
-              <span className="text-lg lg:text-xl font-bold tracking-tight text-foreground">E-MENU</span>
+              <span className={cn(
+                'text-lg lg:text-xl font-bold tracking-tight transition-colors',
+                scrolled ? 'text-foreground' : 'text-white'
+              )}>E-MENU</span>
             </button>
             <nav className="hidden md:flex items-center gap-1">
               {[
@@ -61,15 +64,29 @@ export default function PublicLandingPage({ onNavigate, onSearchClick, onRestaur
                 { label: 'Offers', action: () => onNavigate('promotions') },
               ].map(link => (
                 <button key={link.label} onClick={link.action}
-                  className="px-4 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors">{link.label}</button>
+                  className={cn(
+                    'px-4 py-2 rounded-lg text-sm font-medium transition-colors',
+                    scrolled
+                      ? 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
+                      : 'text-white/80 hover:text-white hover:bg-white/10'
+                  )}>{link.label}</button>
               ))}
             </nav>
             <div className="flex items-center gap-3">
-              <button onClick={onSearchClick} className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-lg bg-muted text-muted-foreground hover:text-foreground transition-colors text-sm w-48 lg:w-64 border border-border/50">
-                <Search size={15} /><span className="text-xs text-muted-foreground/60">Search restaurants...</span>
+              <button onClick={onSearchClick} className={cn(
+                'hidden sm:flex items-center gap-2 px-4 py-2 rounded-lg transition-colors text-sm w-48 lg:w-64 border',
+                scrolled
+                  ? 'bg-muted text-muted-foreground hover:text-foreground border-border/50'
+                  : 'bg-white/10 text-white/80 hover:text-white border-white/20 backdrop-blur-sm'
+              )}>
+                <Search size={15} />
+                <span className={cn('text-xs', scrolled ? 'text-muted-foreground/60' : 'text-white/50')}>Search restaurants...</span>
               </button>
               <button onClick={() => onNavigate('auth')} className="hidden sm:inline-flex px-5 py-2 rounded-lg bg-primary text-primary-foreground font-medium text-sm hover:bg-primary/90 transition-colors shadow-sm shadow-primary/20">Sign In</button>
-              <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden p-2 rounded-lg text-foreground hover:bg-muted/50 transition-colors">
+              <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className={cn(
+                'md:hidden p-2 rounded-lg transition-colors',
+                scrolled ? 'text-foreground hover:bg-muted/50' : 'text-white hover:bg-white/10'
+              )}>
                 {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
               </button>
             </div>
@@ -85,60 +102,49 @@ export default function PublicLandingPage({ onNavigate, onSearchClick, onRestaur
         )}
       </header>
 
-      <section className="relative min-h-[90vh] lg:min-h-screen flex items-center overflow-hidden pt-20 lg:pt-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-background" />
-        <div className="absolute top-1/4 -left-32 w-64 h-64 rounded-full bg-primary/10 blur-3xl" />
-        <div className="absolute bottom-1/4 -right-32 w-80 h-80 rounded-full bg-primary/5 blur-3xl" />
-        <div className="absolute top-1/3 right-1/4 w-2 h-2 rounded-full bg-primary/30 hidden lg:block" />
-        <div className="absolute bottom-1/3 left-1/3 w-1.5 h-1.5 rounded-full bg-primary/20 hidden lg:block" />
-        <div className="max-w-[var(--container-max)] mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
-          <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20 py-12 lg:py-16">
-            <div className="flex-1 text-center lg:text-left">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-xs font-medium text-primary mb-6 shadow-sm">
-                <Sparkles size={12} /> Dine & Discover with E-MENU
-              </div>
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-foreground leading-[1.05] tracking-tight mb-5">
-                Browse Menus,<br />
-                <span className="text-primary">Order Easy</span><br />
-                Dine Happy
-              </h1>
-              <p className="text-base lg:text-lg text-muted-foreground leading-relaxed max-w-xl mx-auto lg:mx-0 mb-8">
-                Discover the best restaurants around you, browse digital menus, and order directly from your table. No app download needed.
-              </p>
-              <div className="flex flex-col sm:flex-row items-center gap-3 justify-center lg:justify-start">
-                <button onClick={() => onNavigate('discover')} className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-primary text-primary-foreground font-semibold text-sm hover:bg-primary/90 transition-all flex items-center justify-center gap-2 shadow-lg shadow-primary/25 active:scale-[0.98]">
-                  Find Restaurants <ArrowRight size={16} />
-                </button>
-                <button onClick={() => onNavigate('auth')} className="w-full sm:w-auto px-8 py-3.5 rounded-xl border border-border text-foreground font-medium text-sm hover:border-primary/40 hover:bg-muted/30 transition-all active:scale-[0.98]">Create Account</button>
-              </div>
-              <div className="flex items-center gap-6 mt-8 justify-center lg:justify-start">
-                <div className="flex -space-x-2">
-                  {[1, 2, 3, 4].map(i => (
-                    <div key={i} className="w-8 h-8 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 border-2 border-background flex items-center justify-center text-[10px] font-semibold text-primary shadow-sm">U{i}</div>
-                  ))}
-                </div>
-                <p className="text-sm text-muted-foreground"><span className="text-foreground font-bold">500+</span> happy customers</p>
-                <span className="w-px h-6 bg-border" />
-                <p className="text-sm text-muted-foreground"><span className="text-foreground font-bold">26+</span> restaurants</p>
-              </div>
+      {/* HERO — full-bleed photo, replaces old split layout */}
+      <section className="relative min-h-[90vh] lg:min-h-screen flex items-end lg:items-center overflow-hidden pt-20">
+        <div className="absolute inset-0">
+          <img
+            src="/images/hero-spices.png"
+          alt="Hero Spices"
+         className="w-full h-full object-cover"
+            />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10 lg:bg-gradient-to-r lg:from-black/70 lg:via-black/40 lg:to-transparent" />
+        </div>
+
+        <div className="max-w-[var(--container-max)] mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 pb-10 lg:pb-0">
+          <div className="max-w-xl lg:max-w-2xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/15 backdrop-blur-sm border border-white/20 text-xs font-medium text-white mb-5">
+              <Sparkles size={12} /> Dine & Discover with E-MENU
             </div>
-            <div className="flex-1 w-full max-w-lg lg:max-w-none">
-              <div className="relative group">
-                <div className="absolute -inset-1 bg-gradient-to-r from-primary/30 to-primary/10 rounded-3xl blur-xl opacity-60 group-hover:opacity-80 transition-opacity" />
-                <div className="relative aspect-[4/3] rounded-2xl lg:rounded-3xl bg-card border border-border/50 overflow-hidden shadow-2xl">
-                  <img
-                    src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80"
-                    alt="Restaurant dining experience"
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-                  <div className="absolute bottom-5 left-5 right-5">
-                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/20 backdrop-blur-sm text-white text-xs font-medium">
-                      <UtensilsCrossed size={12} /> Order from your table
-                    </div>
-                  </div>
-                </div>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-[1.05] tracking-tight mb-4">
+              Browse Menus,<br />
+              <span className="text-primary">Order Easy</span><br />
+              Dine Happy
+            </h1>
+            <p className="text-sm lg:text-lg text-white/80 leading-relaxed mb-7 max-w-md lg:max-w-xl">
+              Discover the best restaurants around you, browse digital menus, and order directly from your table. No app download needed.
+            </p>
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+              <button onClick={() => onNavigate('discover')}
+                className="min-h-[52px] px-8 rounded-xl bg-primary text-primary-foreground font-semibold text-sm hover:bg-primary/90 transition-all flex items-center justify-center gap-2 shadow-lg shadow-black/20 active:scale-[0.98]">
+                Find Restaurants <ArrowRight size={16} />
+              </button>
+              <button onClick={() => onNavigate('auth')}
+                className="min-h-[52px] px-8 rounded-xl border border-white/30 text-white font-medium text-sm hover:bg-white/10 transition-all active:scale-[0.98]">
+                Create Account
+              </button>
+            </div>
+            <div className="flex items-center gap-6 mt-7">
+              <div className="flex -space-x-2">
+                {[1, 2, 3, 4].map(i => (
+                  <div key={i} className="w-8 h-8 rounded-full bg-white/10 backdrop-blur-sm border-2 border-white/30 flex items-center justify-center text-[10px] font-semibold text-white">U{i}</div>
+                ))}
               </div>
+              <p className="text-sm text-white/80"><span className="text-white font-bold">500+</span> happy customers</p>
+              <span className="w-px h-6 bg-white/20" />
+              <p className="text-sm text-white/80"><span className="text-white font-bold">26+</span> restaurants</p>
             </div>
           </div>
         </div>
